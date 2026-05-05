@@ -1,99 +1,116 @@
+/* Configuração Global */
 html {
-    width: 100%;
-    height: 100%;
-    font-size: 1rem;
-    font-family: sans-serif;
-    display: border-box;
+    box-sizing: border-box; /* Corrigido de display para box-sizing */
+    font-size: 62.5%; /* Facilita o uso de rem (1rem = 10px) */
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
 }
 
 body {
     width: 100%;
-    height: 100%;
+    min-height: 100dvh; /* Usa a altura dinâmica do viewport para mobile */
     display: flex;
     justify-content: center;
     align-items: center;
     background: linear-gradient(#18251b, #40543f);
     margin: 0;
+    padding: 2rem; /* Espaço de segurança para não encostar nas bordas do celular */
+    font-family: sans-serif;
 }
 
-h1 {
-    font-size: 3.2rem;
-    margin: 0 0 1.6rem;
-}
-
+/* Container Principal */
 main {
     width: 100%;
     max-width: 40rem;
     background-color: white;
     border-radius: .8rem;
     padding: 3.2rem 2.4rem;
+    box-shadow: 0 1rem 3rem rgba(0,0,0,0.2);
 }
 
+h1 {
+    font-size: clamp(2.4rem, 8vw, 3.2rem); /* Fonte diminui em telas pequenas */
+    margin: 0 0 1.6rem;
+    text-align: center;
+}
+
+/* Seção da Lista */
 .task-list-section {
     margin: 0.8rem 0 1.6rem;
     min-height: 5rem;
 
-
     & > ul {
         padding-inline-start: 0rem;
-        height: 23rem;
-        overflow: auto;
+        max-height: 40dvh; /* Em vez de altura fixa, limita a 40% da tela */
+        overflow-y: auto;
+        margin: 0;
     }
 
     & > ul > li {
         list-style: none;
-        padding: 0.8rem 1.6rem;
+        padding: 1.2rem 1.6rem;
         font-size: 1.6rem;
         border-radius: .4rem;
         background-color: #f0f0f0;
         margin-bottom: 0.8rem;
         display: flex;
         justify-content: space-between;
-        position: relative;
+        align-items: center;
+        gap: 1rem;
 
-}
-
-        & > ul > li:last-child {
+        &:last-child {
             margin-bottom: 0;
         }
 
-        & > ul > li > button {
-            width: 2.4rem;
-            height: 2.4rem;
+        & > button {
+            flex-shrink: 0; /* Impede o botão de esmagar */
+            width: 3.2rem;
+            height: 3.2rem;
             background-color: #e64c3c;
             border: none;
             cursor: pointer;
             color: #fff;
-            border-radius: .4rem; 
+            border-radius: .4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
 
-        &:hover {
-            background-color: #da5c3e;
+            &:hover {
+                background-color: #c0392b;
+            }
         }
     }
-
 }
 
 .checkbox-label-container {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 1rem;
+    word-break: break-word; /* Evita que textos longos quebrem o layout */
 
     & label {
         cursor: pointer;
     }
 
     & input {
-        margin-right: 0.8rem;
+        cursor: pointer;
+        width: 1.8rem;
+        height: 1.8rem;
     }
 }
 
+/* Seção de Input */
 .task-input-section {
     display: flex;
     gap: 0.8rem;
 
     & > input {
         flex: 1;
-        padding: 0.8rem 1.6rem;
+        min-width: 0; /* Importante para o flexbox não quebrar em telas pequenas */
+        padding: 0.8rem 1.2rem;
         font-size: 1.6rem;
         border-radius: .4rem;
         border: 1px solid #ccc;
@@ -107,9 +124,26 @@ main {
         background-color: #28a745;
         color: white;
         cursor: pointer;
+        white-space: nowrap; /* Impede o texto do botão de quebrar linha */
+        transition: background 0.2s;
 
         &:hover {
             background-color: #218838;
         }
+    }
+}
+
+/* Ajustes para telas muito pequenas (Mobile Portrait) */
+@media (max-width: 380px) {
+    main {
+        padding: 2rem 1.5rem;
+    }
+    
+    .task-input-section {
+        flex-direction: column; /* Empilha input e botão se o espaço for crítico */
+    }
+    
+    .task-input-section > button {
+        width: 100%;
     }
 }
